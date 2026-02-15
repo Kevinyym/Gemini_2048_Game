@@ -1,5 +1,5 @@
 {
-  "name": "Gemini 2048 Pro",
+  "name": "Game 2048 Puzzle",
   "description": "A high-performance, aesthetically pleasing 2048 puzzle game featuring real-time AI move suggestions powered by Gemini.",
   "requestFramePermissions": []
 }
