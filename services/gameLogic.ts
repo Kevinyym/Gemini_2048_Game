@@ -1,5 +1,5 @@
 
-import { Direction, Grid, Tile } from '../types';
+import { Direction, Grid, Tile } from '../types.ts';
 
 let tileCounter = 0;
 
@@ -33,18 +33,17 @@ export const addRandomTile = (grid: Grid): Grid => {
 };
 
 /**
- * 核心移动逻辑
- * 顺时针旋转函数 rotate 定义：new_row = old_col, new_col = 3 - old_row
- * - 0次旋转: 原图，左滑 = 左滑
- * - 1次旋转: 顺时针90度，原图底行变左列。左滑 = 下滑
- * - 2次旋转: 顺时针180度，原图右列变左列。左滑 = 右滑
- * - 3次旋转: 顺时针270度，原图顶行变左列。左滑 = 上滑
+ * Core Move Logic
+ * Rotation Function rotate: new_row = old_col, new_col = 3 - old_row
+ * - 0 rot: Original, Left Slide = Left Slide
+ * - 1 rot: 90deg CW, Bottom Row becomes Left Column. Left Slide = Slide Down
+ * - 2 rot: 180deg CW, Right Column becomes Left Column. Left Slide = Slide Right
+ * - 3 rot: 270deg CW, Top Row becomes Left Column. Left Slide = Slide Up
  */
 export const move = (grid: Grid, direction: Direction): { grid: Grid; score: number; moved: boolean } => {
   let score = 0;
   let moved = false;
   
-  // 1. 深度拷贝并重置动画状态
   let tempGrid: Grid = grid.map(row => row.map(tile => 
     tile ? { ...tile, isNew: false, isMerged: false } : null
   ));
@@ -60,16 +59,13 @@ export const move = (grid: Grid, direction: Direction): { grid: Grid; score: num
     return res;
   };
 
-  // 2. 根据方向确定旋转次数以统一为“向左滑动”
   let rotations = 0;
-  if (direction === 'UP') rotations = 3;    // 顺时针旋转270度，顶行变左列
-  else if (direction === 'RIGHT') rotations = 2; // 顺时针旋转180度，右列变左列
-  else if (direction === 'DOWN') rotations = 1;  // 顺时针旋转90度，底行变左列
-  // LEFT 默认为 0
+  if (direction === 'UP') rotations = 3;    // 270deg CW, Top becomes Left
+  else if (direction === 'RIGHT') rotations = 2; // 180deg CW, Right becomes Left
+  else if (direction === 'DOWN') rotations = 1;  // 90deg CW, Bottom becomes Left
 
   for (let i = 0; i < rotations; i++) tempGrid = rotate(tempGrid);
 
-  // 3. 执行向左滑动与合并逻辑
   const newGrid = tempGrid.map((row) => {
     const originalRowValues = row.map(t => t?.value);
     let filteredRow = row.filter(t => t !== null) as Tile[];
@@ -98,12 +94,10 @@ export const move = (grid: Grid, direction: Direction): { grid: Grid; score: num
     return mergedRow;
   });
 
-  // 4. 旋转回原始方向
   let finalGrid = newGrid;
   const reverseRotations = (4 - rotations) % 4;
   for (let i = 0; i < reverseRotations; i++) finalGrid = rotate(finalGrid);
 
-  // 5. 关键：更新所有磁贴内部记录的坐标，用于 CSS Transform 动画渲染
   finalGrid = finalGrid.map((row, r) => 
     row.map((tile, c) => 
       tile ? { ...tile, row: r, col: c } : null

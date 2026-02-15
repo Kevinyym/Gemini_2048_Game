@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
-import { Grid, AIResponse } from '../types';
-import { getAIHint } from '../services/geminiService';
+import { Grid, AIResponse } from '../types.ts';
+import { getAIHint } from '../services/geminiService.ts';
 
 interface AIHintPanelProps {
   grid: Grid;
@@ -20,7 +20,8 @@ const AIHintPanel: React.FC<AIHintPanelProps> = ({ grid, score, onApplyHint }) =
       const result = await getAIHint(grid, score);
       setHint(result);
     } catch (err) {
-      alert("Error fetching hint. Check console or API key.");
+      console.error(err);
+      alert("Error fetching hint. Please check your API key.");
     } finally {
       setLoading(false);
     }

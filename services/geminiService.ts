@@ -1,11 +1,10 @@
 
 import { GoogleGenAI, Type } from "@google/genai";
-import { Grid, AIResponse } from "../types";
+import { Grid, AIResponse } from "../types.ts";
 
 export const getAIHint = async (grid: Grid, score: number): Promise<AIResponse> => {
   const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
   
-  // Format the board into a readable string for the model
   const boardStr = grid.map(row => 
     row.map(tile => (tile ? tile.value : 0)).join(' | ')
   ).join('\n');
@@ -44,7 +43,9 @@ export const getAIHint = async (grid: Grid, score: number): Promise<AIResponse> 
       },
     });
 
-    const result = JSON.parse(response.text.trim());
+    const text = response.text;
+    if (!text) throw new Error("Empty response from AI");
+    const result = JSON.parse(text.trim());
     return result as AIResponse;
   } catch (error) {
     console.error("AI Hint Error:", error);

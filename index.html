@@ -15,7 +15,6 @@
             touch-action: none;
         }
         
-        /* New tile appearing animation - with a slight bounce/overshoot */
         .tile-pop {
           animation: pop 200ms cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
         }
@@ -26,7 +25,6 @@
           100% { transform: scale(1); opacity: 1; }
         }
 
-        /* Merge animation - punchier scale and slight brightness flash */
         .tile-merge {
           animation: merge 180ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
           z-index: 10;
@@ -38,7 +36,6 @@
           100% { transform: scale(1); filter: brightness(1); }
         }
 
-        /* Smooth slide transition class if needed, though we use inline for performance */
         .tile-move {
           transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1);
         }
@@ -46,15 +43,18 @@
 <script type="importmap">
 {
   "imports": {
-    "react": "https://esm.sh/react@^19.2.4",
-    "react/": "https://esm.sh/react@^19.2.4/",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
-    "@google/genai": "https://esm.sh/@google/genai@^1.41.0"
+    "react": "https://esm.sh/react@19.0.0",
+    "react/": "https://esm.sh/react@19.0.0/",
+    "react-dom": "https://esm.sh/react-dom@19.0.0",
+    "react-dom/": "https://esm.sh/react-dom@19.0.0/",
+    "react-dom/client": "https://esm.sh/react-dom@19.0.0/client",
+    "@google/genai": "https://esm.sh/@google/genai@1.41.0"
   }
 }
 </script>
 </head>
 <body class="bg-slate-50 text-slate-900">
     <div id="root"></div>
+    <script type="module" src="index.tsx"></script>
 </body>
 </html>

@@ -1,9 +1,9 @@
 
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import * as Logic from './services/gameLogic';
-import { GameState, Direction, Grid } from './types';
-import TileComponent from './components/TileComponent';
-import AIHintPanel from './components/AIHintPanel';
+import * as Logic from './services/gameLogic.ts';
+import { GameState, Direction } from './types.ts';
+import TileComponent from './components/TileComponent.tsx';
+import AIHintPanel from './components/AIHintPanel.tsx';
 
 const App: React.FC = () => {
   const [state, setState] = useState<GameState>({
@@ -103,7 +103,6 @@ const App: React.FC = () => {
     >
       <div className="w-full max-w-md flex flex-col items-stretch gap-6">
         
-        {/* Score Header */}
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-5xl font-extrabold text-slate-800 tracking-tighter">2048</h1>
@@ -121,23 +120,19 @@ const App: React.FC = () => {
           </div>
         </div>
 
-        {/* Board Container */}
         <div className="relative aspect-square w-full bg-slate-400 rounded-xl p-1.5 shadow-inner">
-          {/* Background Grid - Just for visual cells */}
           <div className="absolute inset-1.5 grid grid-cols-4 grid-rows-4 gap-0">
             {[...Array(16)].map((_, i) => (
               <div key={i} className="m-1.5 bg-slate-300 rounded-lg" />
             ))}
           </div>
           
-          {/* Tile Layer - Exactly same size and padding as background grid */}
           <div className="absolute inset-1.5">
             {state.grid.flat().map(tile => tile && (
               <TileComponent key={tile.id} tile={tile} />
             ))}
           </div>
 
-          {/* Overlays */}
           {state.status !== 'PLAYING' && (
             <div className="absolute inset-0 bg-white/80 backdrop-blur-sm flex flex-col items-center justify-center z-50 rounded-xl animate-in fade-in duration-300">
               <h2 className="text-4xl font-black text-slate-800 mb-4 tracking-tight">

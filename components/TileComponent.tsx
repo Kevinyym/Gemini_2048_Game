@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Tile } from '../types';
+import { Tile } from '../types.ts';
 
 interface TileProps {
   tile: Tile;
@@ -26,7 +26,6 @@ const getTileColors = (value: number): string => {
 const TileComponent: React.FC<TileProps> = ({ tile }) => {
   const { value, row, col, isNew, isMerged } = tile;
   
-  // 使用 transform 替代 top/left 能获得更流畅的动画效果，且更容易对齐
   const style: React.CSSProperties = {
     transform: `translate(${col * 100}%, ${row * 100}%)`,
     transition: 'transform 150ms cubic-bezier(0.4, 0, 0.2, 1)',
